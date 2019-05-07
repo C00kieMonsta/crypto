@@ -4,7 +4,7 @@
 
 const crypto = require('crypto');
 const algorithm = 'aes-192-cbc';
-const password = 'Password used to generate key';
+const password = '8f17a3ca-fdd0-43b4-8fbc-3a0904c51a56';
 const key = crypto.scryptSync(password, 'salt', 24);
 
 function encrypt(text) {
@@ -25,9 +25,18 @@ function decrypt(text) {
     return decrypted.toString();
 }
 
-var hw = encrypt('this is my strong password');
+function hashPassword(password) {
+    const nowInMinutesRounded = Math.round(Date.now() / 1000000) * 1000;
+    const hash = crypto.createHmac('sha256', `${password}.${nowInMinutesRounded}`).digest('hex');
+    return hash;
+}
+
+var hw = encrypt('fx63N4beZEQlPCEC3PM2uCcSXjrVZ-P4EKnqrbkC9M86SoA6jSdb-t0GPlejjKWG');
 console.log(hw);
 console.log(decrypt(hw));
+
+const hashedPassword = hashPassword('fx63N4beZEQlPCEC3PM2uCcSXjrVZ-P4EKnqrbkC9M86SoA6jSdb-t0GPlejjKWG');
+console.log(hashedPassword);
 
 //
 // CRYPTO-JS Library
